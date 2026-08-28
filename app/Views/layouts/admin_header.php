@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= Security::sanitize($pageTitle ?? 'Espace Admin — Mairie de Tattaguine') ?></title>
+    <title><?= Security::sanitize($pageTitle ?? 'Espace Admin — Sunu Tattaguine') ?></title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
 </head>
 <body class="admin-body">
@@ -14,7 +14,7 @@
     <!-- Sidebar Admin Indépendant (Fixe sur PC, Off-canvas sur Mobile/Tablette) -->
     <aside id="adminSidebar" class="admin-sidebar">
         <div class="sidebar-header">
-            <h2>MAIRIE DE TATTAGUINE</h2>
+            <h2>SUNU TATTAGUINE</h2>
             <p>Espace d'Administration</p>
         </div>
         <ul class="sidebar-menu">
@@ -33,6 +33,14 @@
                     <span>Modération Commentaires</span>
                     <?php if (!empty($pendingCommentsCount) && $pendingCommentsCount > 0): ?>
                         <span class="badge-pending"><?= $pendingCommentsCount ?></span>
+                    <?php endif; ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?= BASE_URL ?>/admin/messages" class="<?= ($activeTab ?? '') === 'messages' ? 'active' : '' ?>">
+                    <span>Messages Citoyens</span>
+                    <?php if (!empty($unreadMessagesCount) && $unreadMessagesCount > 0): ?>
+                        <span class="badge-pending" style="background:var(--admin-warning); color:#000;"><?= $unreadMessagesCount ?></span>
                     <?php endif; ?>
                 </a>
             </li>
@@ -68,7 +76,7 @@
                 <button type="button" class="mobile-nav-toggle" onclick="toggleMobileSidebar()">
                     ☰ Menu
                 </button>
-                <strong style="color:var(--admin-sidebar-bg);">Commune de Tattaguine</strong>
+                <strong style="color:var(--admin-sidebar-bg);">Sunu Tattaguine — Administration</strong>
             </div>
             <div class="admin-user-info">
                 <a href="<?= BASE_URL ?>/admin/logout" class="btn-action btn-danger">Déconnexion</a>

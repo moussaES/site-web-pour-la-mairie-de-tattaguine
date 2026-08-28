@@ -1,6 +1,7 @@
 <?php 
 $activeTab = 'dashboard';
 $pendingCommentsCount = $pendingComments;
+$unreadMessagesCount = $unreadMessages;
 require_once APP_PATH . '/Views/layouts/admin_header.php'; 
 ?>
 
@@ -33,13 +34,13 @@ require_once APP_PATH . '/Views/layouts/admin_header.php';
             <div class="stat-label">Commentaires à Modérer</div>
         </div>
     </div>
-    <div class="stat-card">
+    <a href="<?= BASE_URL ?>/admin/messages" class="stat-card" style="text-decoration:none; color:inherit; cursor:pointer;">
         <div class="stat-icon" style="background-color:#E3F2FD; color:#1976D2;">✉️</div>
         <div>
             <div class="stat-number"><?= $unreadMessages ?></div>
-            <div class="stat-label">Messages Non Lus</div>
+            <div class="stat-label">Messages Citoyens Non Lus</div>
         </div>
-    </div>
+    </a>
     <div class="stat-card">
         <div class="stat-icon" style="background-color:#FFF8E1; color:#F57F17;">👥</div>
         <div>

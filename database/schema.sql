@@ -27,18 +27,20 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `label`) VALUES 
 (1, 'super_admin', 'Super Administrateur'),
-(2, 'redacteur', 'Agent Rédacteur & Modérateur');
+(2, 'redacteur', 'Agent Rédacteur & Modérateur'),
+(3, 'citoyen', 'Citoyen');
 
 -- --------------------------------------------------------------------
--- 2. Table des Utilisateurs (Agents Municipaux)
+-- 2. Table des Utilisateurs (Agents Municipaux & Citoyens)
 -- --------------------------------------------------------------------
 CREATE TABLE `users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `role_id` INT NOT NULL,
+    `role_id` INT NOT NULL DEFAULT 3,
     `is_active` TINYINT(1) NOT NULL DEFAULT 1,
     `username` VARCHAR(50) NOT NULL UNIQUE,
     `email` VARCHAR(100) NOT NULL UNIQUE,
-    `password_hash` VARCHAR(255) NOT NULL,
+    `google_id` VARCHAR(255) NULL UNIQUE,
+    `password_hash` VARCHAR(255) NULL,
     `full_name` VARCHAR(100) NOT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_users_roles` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT
@@ -114,6 +116,7 @@ CREATE TABLE `documents` (
 CREATE TABLE `comments` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `post_id` INT NOT NULL,
+    `user_id` INT NULL,
     `author_name` VARCHAR(100) NOT NULL,
     `author_email` VARCHAR(100) NULL,
     `content` TEXT NOT NULL,
@@ -121,6 +124,7 @@ CREATE TABLE `comments` (
     `admin_response` TEXT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_comments_posts` FOREIGN KEY (`post_id`) REFERENCES `posts`(`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_comments_users` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,
     INDEX `idx_comments_status` (`post_id`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -129,13 +133,15 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------------------
 CREATE TABLE `contact_messages` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NULL,
     `full_name` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `phone` VARCHAR(30) NULL,
     `subject` VARCHAR(200) NOT NULL,
     `message` TEXT NOT NULL,
     `is_read` TINYINT(1) DEFAULT 0,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_contact_users` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------------------

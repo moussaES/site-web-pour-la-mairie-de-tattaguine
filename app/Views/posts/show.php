@@ -70,35 +70,49 @@
     <?php endif; ?>
 
     <!-- Formulaire de dépot de commentaire -->
-    <div style="background-color:#FFF; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:40px;">
+    <div id="commentaires" style="background-color:#FFF; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:40px;">
         <h3 style="margin-top:0; color:var(--primary-color); margin-bottom:15px;">Laisser un commentaire</h3>
-        <form action="<?= BASE_URL ?>/actualites/<?= Security::sanitize($post['slug']) ?>/commentaire" method="POST">
-            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
-                <div>
-                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Votre Nom et Prénom *</label>
-                    <input type="text" name="author_name" required placeholder="ex: Ousmane Sow" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
-                </div>
-                <div>
-                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Votre E-mail (Facultatif)</label>
-                    <input type="email" name="author_email" placeholder="ex: ousmane@gmail.com" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
+        
+        <?php if (empty($_SESSION['user_id'])): ?>
+            <?php $articleRedirect = urlencode('/actualites/' . Security::sanitize($post['slug']) . '#commentaires'); ?>
+            <div style="background-color:#EBF3FA; border-left:4px solid var(--primary-color); padding:20px; border-radius:6px; text-align:center;">
+                <p style="margin:0 0 15px 0; font-size:1.05rem; color:var(--primary-color); font-weight:600;">
+                    🔒 Pour poster un commentaire et réagir à cet article, vous devez être connecté.
+                </p>
+                <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; align-items:center;">
+                    <a href="<?= BASE_URL ?>/login?redirect=<?= $articleRedirect ?>" class="btn-login" style="padding:10px 22px; font-size:0.95rem; text-decoration:none;">Se connecter</a>
+                    <a href="<?= BASE_URL ?>/register?redirect=<?= $articleRedirect ?>" class="btn-register" style="padding:10px 22px; font-size:0.95rem; text-decoration:none;">Créer un compte</a>
                 </div>
             </div>
+        <?php else: ?>
+            <form action="<?= BASE_URL ?>/actualites/<?= Security::sanitize($post['slug']) ?>/commentaire" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
 
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-weight:bold; margin-bottom:5px;">Votre Message *</label>
-                <textarea name="content" rows="4" required placeholder="Exprimez votre avis de manière courtoise..." style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; font-family:inherit;"></textarea>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
-                <div>
-                    <label style="font-weight:bold; margin-right:10px; color:var(--primary-color);">Test anti-bot : <?= $captchaQuestion ?> *</label>
-                    <input type="number" name="captcha_answer" required style="width:80px; padding:8px; border:1px solid #CCC; border-radius:6px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                    <div>
+                        <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Expéditeur connecté</label>
+                        <input type="text" value="<?= Security::sanitize($_SESSION['full_name'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Adresse E-mail</label>
+                        <input type="email" value="<?= Security::sanitize($_SESSION['email'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
+                    </div>
                 </div>
-                <button type="submit" class="btn-primary" style="padding:10px 25px; border:none; cursor:pointer;">Soumettre le commentaire</button>
-            </div>
-        </form>
+
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Votre Commentaire *</label>
+                    <textarea name="content" rows="4" required placeholder="Exprimez votre avis de manière courtoise..." style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; font-family:inherit;"></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+                    <div>
+                        <label style="font-weight:bold; margin-right:10px; color:var(--primary-color);">Test anti-bot : <?= $captchaQuestion ?> *</label>
+                        <input type="number" name="captcha_answer" required style="width:80px; padding:8px; border:1px solid #CCC; border-radius:6px;">
+                    </div>
+                    <button type="submit" class="btn-primary" style="padding:10px 25px; border:none; cursor:pointer;">Soumettre le commentaire</button>
+                </div>
+            </form>
+        <?php endif; ?>
     </div>
 
     <!-- Liste des commentaires approuvés -->
@@ -111,6 +125,13 @@
                         <small style="color:var(--text-muted);"><?= date('d/m/Y à H:i', strtotime($comment['created_at'])) ?></small>
                     </div>
                     <p style="margin:0; color:#444;"><?= nl2br(Security::sanitize($comment['content'])) ?></p>
+
+                    <?php if (!empty($comment['admin_response'])): ?>
+                        <div style="margin-top:15px; background:#F4F9F5; border-left:4px solid #00853F; padding:15px; border-radius:6px;">
+                            <strong style="color:#00853F; font-size:0.9rem; display:block; margin-bottom:5px;">🏛️ Réponse Officielle — Mairie de Tattaguine</strong>
+                            <p style="margin:0; color:#222; font-size:0.95rem;"><?= nl2br(Security::sanitize($comment['admin_response'])) ?></p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>

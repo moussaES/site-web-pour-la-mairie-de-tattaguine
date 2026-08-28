@@ -22,11 +22,12 @@ class Comment extends Model {
      * Enregistrer un nouveau commentaire (en attente par défaut)
      */
     public function create(array $data): bool {
-        $sql = "INSERT INTO comments (post_id, author_name, author_email, content, status) 
-                VALUES (:post_id, :author_name, :author_email, :content, 'pending')";
+        $sql = "INSERT INTO comments (post_id, user_id, author_name, author_email, content, status) 
+                VALUES (:post_id, :user_id, :author_name, :author_email, :content, 'pending')";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
             ':post_id'      => $data['post_id'],
+            ':user_id'      => $data['user_id'] ?? null,
             ':author_name'  => $data['author_name'],
             ':author_email' => $data['author_email'] ?? null,
             ':content'      => $data['content']

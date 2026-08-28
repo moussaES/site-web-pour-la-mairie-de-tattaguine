@@ -19,6 +19,11 @@ class DocumentAdminController extends Controller {
             header('Location: ' . BASE_URL . '/admin/login');
             exit;
         }
+
+        if (!in_array($_SESSION['role_name'] ?? '', ['super_admin', 'redacteur'])) {
+            header('Location: ' . BASE_URL . '/mon-espace');
+            exit;
+        }
     }
 
     private function getValidAuthorId(): int {

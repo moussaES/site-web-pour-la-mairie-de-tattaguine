@@ -22,6 +22,10 @@ class Database {
                 ];
 
                 self::$instance = new PDO($dsn, DB_USER, DB_PASS, $options);
+
+                // Auto-migration pour les évolutions de schéma (Google ID, rôle Citoyen, user_id)
+                require_once ROOT_PATH . '/database/Migrate.php';
+                DatabaseMigrate::run(self::$instance);
             } catch (PDOException $e) {
                 die("Erreur critique de connexion à la base de données : " . $e->getMessage());
             }

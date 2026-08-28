@@ -22,43 +22,56 @@
         
         <!-- Formulaire de contact -->
         <div style="background:#FFF; padding:30px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-            <h3 style="color:var(--primary-color); margin-top:0; margin-bottom:20px;">Formulaire de Message</h3>
-            <form action="<?= BASE_URL ?>/contact" method="POST">
-                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-
-                <div style="margin-bottom:15px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Nom et Prénom *</label>
-                    <input type="text" name="full_name" required placeholder="ex: Fatou Diallo" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
-                </div>
-
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
-                    <div>
-                        <label style="display:block; font-weight:bold; margin-bottom:5px;">Adresse E-mail *</label>
-                        <input type="email" name="email" required placeholder="ex: fatou@gmail.com" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
-                    </div>
-                    <div>
-                        <label style="display:block; font-weight:bold; margin-bottom:5px;">Téléphone</label>
-                        <input type="text" name="phone" placeholder="ex: 77 XXX XX XX" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
+            <h3 style="color:var(--primary-color); margin-top:0; margin-bottom:20px;">Formulaire de Message Citoyen</h3>
+            
+            <?php if (empty($_SESSION['user_id'])): ?>
+                <div style="background-color:#EBF3FA; border-left:4px solid var(--primary-color); padding:25px; border-radius:6px; text-align:center;">
+                    <p style="margin:0 0 15px 0; font-size:1.05rem; color:var(--primary-color); font-weight:600;">
+                        🔒 Pour transmettre un message ou une requête aux services municipaux, vous devez d'abord vous connecter à votre compte citoyen.
+                    </p>
+                    <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; align-items:center;">
+                        <a href="<?= BASE_URL ?>/login" class="btn-login" style="padding:10px 22px; font-size:0.95rem; text-decoration:none;">Se connecter</a>
+                        <a href="<?= BASE_URL ?>/register" class="btn-register" style="padding:10px 22px; font-size:0.95rem; text-decoration:none;">S'inscrire</a>
                     </div>
                 </div>
+            <?php else: ?>
+                <form action="<?= BASE_URL ?>/contact" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
 
-                <div style="margin-bottom:15px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Objet de votre demande *</label>
-                    <input type="text" name="subject" required placeholder="ex: Renseignement État Civil" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
-                </div>
+                    <div style="margin-bottom:15px;">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Nom et Prénom (Expéditeur connecté)</label>
+                        <input type="text" value="<?= Security::sanitize($_SESSION['full_name'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
+                    </div>
 
-                <div style="margin-bottom:15px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px;">Message *</label>
-                    <textarea name="message" rows="5" required placeholder="Détaillez votre demande..." style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; font-family:inherit;"></textarea>
-                </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                        <div>
+                            <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Adresse E-mail</label>
+                            <input type="email" value="<?= Security::sanitize($_SESSION['email'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Téléphone (Optionnel)</label>
+                            <input type="text" name="phone" placeholder="ex: 77 XXX XX XX" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
+                        </div>
+                    </div>
 
-                <div style="margin-bottom:20px;">
-                    <label style="font-weight:bold; margin-right:10px; color:var(--primary-color);">Test anti-bot : <?= $captchaQuestion ?> *</label>
-                    <input type="number" name="captcha_answer" required style="width:80px; padding:8px; border:1px solid #CCC; border-radius:6px;">
-                </div>
+                    <div style="margin-bottom:15px;">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px;">Objet de votre demande *</label>
+                        <input type="text" name="subject" required placeholder="ex: Renseignement État Civil" style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px;">
+                    </div>
 
-                <button type="submit" class="btn-primary" style="width:100%; padding:12px; border:none; cursor:pointer; font-size:1rem;">Envoyer mon message</button>
-            </form>
+                    <div style="margin-bottom:15px;">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px;">Message *</label>
+                        <textarea name="message" rows="5" required placeholder="Détaillez votre demande..." style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; font-family:inherit;"></textarea>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <label style="font-weight:bold; margin-right:10px; color:var(--primary-color);">Test anti-bot : <?= $captchaQuestion ?> *</label>
+                        <input type="number" name="captcha_answer" required style="width:80px; padding:8px; border:1px solid #CCC; border-radius:6px;">
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width:100%; padding:12px; border:none; cursor:pointer; font-size:1rem;">Envoyer mon message</button>
+                </form>
+            <?php endif; ?>
         </div>
 
         <!-- Informations de contact Mairie -->

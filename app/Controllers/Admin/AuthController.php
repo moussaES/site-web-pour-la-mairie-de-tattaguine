@@ -23,7 +23,7 @@ class AuthController extends Controller {
         }
 
         $data = [
-            'pageTitle'    => 'Connexion Espace Administrateur — Mairie de Tattaguine',
+            'pageTitle'    => 'Connexion Espace Administrateur — Sunu Tattaguine',
             'csrfToken'    => Security::generateCsrfToken(),
             'flashError'   => $_SESSION['flash_error'] ?? null
         ];

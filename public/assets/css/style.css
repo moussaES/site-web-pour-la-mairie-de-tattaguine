@@ -104,6 +104,52 @@ body {
     border-radius: 5px;
 }
 
+.btn-login {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color) !important;
+    padding: 7px 15px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-color);
+    color: #FFF !important;
+}
+
+.btn-register {
+    background-color: var(--secondary-color);
+    color: #FFF !important;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.btn-register:hover {
+    background-color: #006831;
+}
+
+.btn-citoyen {
+    background-color: #E8F5E9;
+    color: var(--secondary-color) !important;
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-logout {
+    border: 1px solid #DC3545;
+    color: #DC3545 !important;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.btn-logout:hover {
+    background-color: #DC3545;
+    color: #FFF !important;
+}
+
 /* Hero Section */
 .hero {
     background: linear-gradient(135deg, rgba(16, 44, 87, 0.9), rgba(0, 133, 63, 0.85)), url('../images/hero_bg.jpg') center/cover;

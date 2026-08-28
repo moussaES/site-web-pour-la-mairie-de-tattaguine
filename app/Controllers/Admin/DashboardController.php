@@ -25,6 +25,12 @@ class DashboardController extends Controller {
             header('Location: ' . BASE_URL . '/admin/login');
             exit;
         }
+
+        if (!in_array($_SESSION['role_name'] ?? '', ['super_admin', 'redacteur'])) {
+            $_SESSION['flash_error'] = 'Accès réservé aux agents de la mairie. Redirection vers votre espace citoyen.';
+            header('Location: ' . BASE_URL . '/mon-espace');
+            exit;
+        }
     }
 
     public function index(): void {
@@ -45,7 +51,7 @@ class DashboardController extends Controller {
         $categories      = $categoryModel->getAll();
 
         $data = [
-            'pageTitle'        => 'Tableau de Bord — Administration Mairie de Tattaguine',
+            'pageTitle'        => 'Tableau de Bord — Administration Sunu Tattaguine',
             'pendingComments'  => $pendingComments,
             'unreadMessages'   => $unreadMessages,
             'totalVisits'      => $totalVisits,

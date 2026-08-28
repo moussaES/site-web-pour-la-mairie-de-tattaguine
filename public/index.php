@@ -48,6 +48,16 @@ $router->get('/documents/download/{id}', 'DocumentController@download');
 $router->get('/contact', 'ContactController@index');
 $router->post('/contact', 'ContactController@store');
 
+// Authentification & Espace Citoyen
+$router->get('/login', 'ClientAuthController@loginForm');
+$router->post('/login', 'ClientAuthController@login');
+$router->get('/register', 'ClientAuthController@registerForm');
+$router->post('/register', 'ClientAuthController@register');
+$router->post('/auth/google', 'ClientAuthController@googleAuth');
+$router->post('/auth/save-fcm-token', 'ClientAuthController@saveFcmToken');
+$router->get('/mon-espace', 'ClientAuthController@dashboard');
+$router->get('/logout', 'ClientAuthController@logout');
+
 // --------------------------------------------------------------------
 // ROUTES ADMINISTRATION (MAIRIE)
 // --------------------------------------------------------------------
@@ -67,7 +77,14 @@ $router->get('/admin/posts/delete/{id}', 'Admin\\PostAdminController@delete');
 $router->get('/admin/comments', 'Admin\\CommentAdminController@index');
 $router->get('/admin/comments/approve/{id}', 'Admin\\CommentAdminController@approve');
 $router->get('/admin/comments/reject/{id}', 'Admin\\CommentAdminController@reject');
+$router->post('/admin/comments/reply/{id}', 'Admin\\CommentAdminController@reply');
 $router->get('/admin/comments/delete/{id}', 'Admin\\CommentAdminController@delete');
+
+// Messages Citoyens & Contact
+$router->get('/admin/messages', 'Admin\\ContactAdminController@index');
+$router->get('/admin/messages/read/{id}', 'Admin\\ContactAdminController@markAsRead');
+$router->post('/admin/messages/reply/{id}', 'Admin\\ContactAdminController@reply');
+$router->get('/admin/messages/delete/{id}', 'Admin\\ContactAdminController@delete');
 
 // Gestion des Documents
 $router->get('/admin/documents', 'Admin\\DocumentAdminController@index');

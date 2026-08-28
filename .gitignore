@@ -1,20 +1,4 @@
-# Fichiers système et OS
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-.DS_Store
-
-# Fichiers d'environnement et IDE
-.idea/
-.vscode/
-*.suo
-*.user
-*.userosv
-*.sln
-*.swp
-
-# Fichiers journaux / logs
+scratch/
 *.log
+.DS_Store
+Thumbs.db

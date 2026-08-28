@@ -1,8 +1,8 @@
 <?php require_once APP_PATH . '/Views/layouts/header.php'; ?>
 
 <section class="hero">
-    <h2>Bienvenue sur le portail officiel de Tattaguine</h2>
-    <p>Information citoyenne, transparence administrative et actualités de votre commune en un clic.</p>
+    <h2>Bienvenue sur Sunu Tattaguine</h2>
+    <p>Portail citoyen officiel : Information, transparence administrative et interaction directe avec la Mairie de Tattaguine.</p>
     <a href="<?= BASE_URL ?>/actualites" class="btn-primary">Consulter toutes les actualités</a>
 </section>
 

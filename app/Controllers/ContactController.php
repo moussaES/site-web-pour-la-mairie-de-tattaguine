@@ -34,8 +34,16 @@ class ContactController extends Controller {
             return;
         }
 
+        // Obligation de connexion
+        if (empty($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = '/contact';
+            $_SESSION['flash_error'] = 'Veuillez vous connecter à votre compte citoyen pour envoyer un message à la Mairie.';
+            $this->redirect('/login');
+            return;
+        }
+
         if (!Security::verifyCsrfToken($_POST['csrf_token'] ?? null)) {
-            $_SESSION['flash_error'] = 'Erreur de sécurité CSRF. Veuillez réesayer.';
+            $_SESSION['flash_error'] = 'Erreur de sécurité CSRF. Veuillez réessayer.';
             $this->redirect('/contact');
             return;
         }
@@ -47,20 +55,21 @@ class ContactController extends Controller {
             return;
         }
 
-        $fullName = trim($_POST['full_name'] ?? '');
-        $email    = trim($_POST['email'] ?? '');
+        $fullName = $_SESSION['full_name'] ?? 'Citoyen';
+        $email    = $_SESSION['email'] ?? '';
         $phone    = trim($_POST['phone'] ?? '');
         $subject  = trim($_POST['subject'] ?? '');
         $message  = trim($_POST['message'] ?? '');
 
-        if (empty($fullName) || empty($email) || empty($subject) || empty($message)) {
-            $_SESSION['flash_error'] = 'Veuillez remplir tous les champs obligatoires.';
+        if (empty($subject) || empty($message)) {
+            $_SESSION['flash_error'] = 'Veuillez remplir l\'objet et le message.';
             $this->redirect('/contact');
             return;
         }
 
         $contactModel = new ContactMessage();
         $success = $contactModel->create([
+            'user_id'   => (int)$_SESSION['user_id'],
             'full_name' => $fullName,
             'email'     => $email,
             'phone'     => $phone,

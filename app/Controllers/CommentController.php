@@ -14,6 +14,14 @@ class CommentController extends Controller {
             return;
         }
 
+        // Obligation d'être connecté
+        if (empty($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = '/actualites/' . $slug;
+            $_SESSION['flash_error'] = 'Veuillez vous connecter à votre compte citoyen pour pouvoir laisser un commentaire.';
+            $this->redirect('/login');
+            return;
+        }
+
         // Vérification CSRF
         if (!Security::verifyCsrfToken($_POST['csrf_token'] ?? null)) {
             $_SESSION['flash_error'] = 'Erreur de sécurité (Token CSRF invalide). Veuillez réessayer.';
@@ -37,21 +45,21 @@ class CommentController extends Controller {
             return;
         }
 
-        // Nettoyage des espaces sans altération des caractères spéciaux
-        $authorName  = trim($_POST['author_name'] ?? '');
-        $authorEmail = trim($_POST['author_email'] ?? '');
+        $authorName  = $_SESSION['full_name'] ?? 'Citoyen';
+        $authorEmail = $_SESSION['email'] ?? '';
         $content     = trim($_POST['content'] ?? '');
 
-        if (empty($authorName) || empty($content)) {
-            $_SESSION['flash_error'] = 'Veuillez remplir votre nom et votre commentaire.';
+        if (empty($content)) {
+            $_SESSION['flash_error'] = 'Veuillez rédiger votre commentaire.';
             $this->redirect('/actualites/' . $slug);
             return;
         }
 
-        // Enregistrement avec statut 'pending'
+        // Enregistrement avec statut 'pending' et association du user_id
         $commentModel = new Comment();
         $success = $commentModel->create([
             'post_id'      => $post['id'],
+            'user_id'      => (int)$_SESSION['user_id'],
             'author_name'  => $authorName,
             'author_email' => $authorEmail,
             'content'      => $content

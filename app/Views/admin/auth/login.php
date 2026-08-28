@@ -68,7 +68,7 @@
 <body class="login-body">
 
     <div class="login-card">
-        <h2>COMMUNE DE TATTAGUINE</h2>
+        <h2>SUNU TATTAGUINE</h2>
         <p>Espace d'Administration réservé aux agents</p>
 
         <?php if (!empty($flashError)): ?>

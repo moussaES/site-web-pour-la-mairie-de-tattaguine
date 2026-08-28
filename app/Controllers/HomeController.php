@@ -18,7 +18,7 @@ class HomeController extends Controller {
         $latestPosts = $postModel->getLatest(6);
 
         $data = [
-            'pageTitle'   => 'Accueil — Mairie de Tattaguine',
+            'pageTitle'   => 'Accueil — Sunu Tattaguine',
             'latestPosts' => $latestPosts
         ];
 
