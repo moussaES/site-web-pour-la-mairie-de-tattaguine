@@ -3,7 +3,7 @@
 // CONFIGURATION GLOBALE DU SITE WEB COMMUNE DE TATTAGUINE
 // ====================================================================
 
-// Configuration de la base de données MySQL / MariaDB (Alwaysdata & Vercel Cloud)
+// Configuration de la base de données MySQL / MariaDB (Alwaysdata Cloud & Vercel)
 define('DB_HOST', getenv('DB_HOST') ?: 'mysql-moustaphacode.alwaysdata.net');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'moustaphacode_tattaguine_db');
