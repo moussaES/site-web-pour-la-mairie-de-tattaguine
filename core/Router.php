@@ -25,13 +25,15 @@ class Router {
     public function dispatch(): void {
         $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         
-        // 1. Détermination prioritaire du chemin depuis $_GET['url'] (Vercel rewrite), PATH_INFO ou REQUEST_URI
-        if (!empty($_GET['url'])) {
+        // 1. Détermination du chemin d'URL d'origine
+        if (!empty($_GET['url']) && $_GET['url'] !== '$1') {
             $rawPath = '/' . ltrim($_GET['url'], '/');
-        } elseif (!empty($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/index.php' && $_SERVER['PATH_INFO'] !== '/api/index.php') {
-            $rawPath = $_SERVER['PATH_INFO'];
+        } elseif (!empty($_SERVER['HTTP_X_MATCHED_PATH'])) {
+            $rawPath = $_SERVER['HTTP_X_MATCHED_PATH'];
         } elseif (!empty($_SERVER['REQUEST_URI'])) {
             $rawPath = $_SERVER['REQUEST_URI'];
+        } elseif (!empty($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/index.php' && $_SERVER['PATH_INFO'] !== '/api/index.php') {
+            $rawPath = $_SERVER['PATH_INFO'];
         } else {
             $rawPath = '/';
         }

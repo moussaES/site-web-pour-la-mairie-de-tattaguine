@@ -4,22 +4,22 @@
       "runtime": "vercel-php@0.7.2"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/public/assets/$1"
+      "source": "/assets/(.*)",
+      "destination": "/public/assets/$1"
     },
     {
-      "src": "/uploads/(.*)",
-      "dest": "/public/uploads/$1"
+      "source": "/uploads/(.*)",
+      "destination": "/public/uploads/$1"
     },
     {
-      "src": "/firebase-messaging-sw.js",
-      "dest": "/public/firebase-messaging-sw.js"
+      "source": "/firebase-messaging-sw.js",
+      "destination": "/public/firebase-messaging-sw.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/api/index.php?url=$1"
+      "source": "/:path*",
+      "destination": "/api/index.php"
     }
   ]
 }
