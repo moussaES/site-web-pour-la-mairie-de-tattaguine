@@ -27,14 +27,15 @@ class Post extends Model {
      * Récupérer un article par son slug
      */
     public function getBySlug(string $slug): ?array {
+        $cleanSlug = trim(urldecode($slug));
         $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug, u.full_name AS author_name 
                 FROM posts p
                 JOIN categories c ON p.category_id = c.id
                 JOIN users u ON p.author_id = u.id
-                WHERE p.slug = :slug AND p.status = 'published'
+                WHERE (p.slug = :slug OR LOWER(p.slug) = LOWER(:clean_slug)) AND p.status = 'published'
                 LIMIT 1";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':slug' => $slug]);
+        $stmt->execute([':slug' => $slug, ':clean_slug' => $cleanSlug]);
         $post = $stmt->fetch();
         return $post ?: null;
     }

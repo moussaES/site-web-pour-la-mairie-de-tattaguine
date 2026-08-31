@@ -19,7 +19,7 @@
 
     <!-- Lecteur Vidéo si présent -->
     <?php if (!empty($post['video_url'])): ?>
-        <div style="margin-bottom:30px; background:#000; border-radius:8px; overflow:hidden;">
+        <div id="video-player" style="margin-bottom:30px; background:#000; border-radius:8px; overflow:hidden;">
             <?php 
                 $vUrl = $post['video_url'];
                 if (str_contains($vUrl, 'youtube.com') || str_contains($vUrl, 'youtu.be')) {

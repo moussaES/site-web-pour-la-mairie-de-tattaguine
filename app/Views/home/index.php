@@ -47,7 +47,7 @@
 
                         <!-- Bouton direct de consultation -->
                         <div style="margin-top:15px; text-align:right;">
-                            <a href="<?= BASE_URL ?>/actualites/<?= Security::sanitize($post['slug']) ?>" class="btn-primary" style="padding:8px 16px; font-size:0.85rem; text-decoration:none;">
+                            <a href="<?= BASE_URL ?>/actualites/<?= Security::sanitize($post['slug']) ?><?= !empty($post['video_url']) ? '#video-player' : '' ?>" class="btn-primary" style="padding:8px 16px; font-size:0.85rem; text-decoration:none;">
                                 <?= !empty($post['video_url']) ? '▶️ Visionner la vidéo' : 'Lire la suite →' ?>
                             </a>
                         </div>
