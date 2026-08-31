@@ -3,12 +3,12 @@
 // CONFIGURATION GLOBALE DU SITE WEB COMMUNE DE TATTAGUINE
 // ====================================================================
 
-// Configuration de la base de données MySQL / MariaDB (support local XAMPP & Vercel / Cloud)
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+// Configuration de la base de données MySQL / MariaDB (Alwaysdata & Vercel Cloud)
+define('DB_HOST', getenv('DB_HOST') ?: 'mysql-moustaphacode.alwaysdata.net');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'tattaguine_db');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
+define('DB_NAME', getenv('DB_NAME') ?: 'moustaphacode_tattaguine_db');
+define('DB_USER', getenv('DB_USER') ?: 'moustaphacode');
+define('DB_PASS', getenv('DB_PASS') !== false && getenv('DB_PASS') !== '' ? getenv('DB_PASS') : 'faye1167');
 define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
 // URLs et Chemins du projet
