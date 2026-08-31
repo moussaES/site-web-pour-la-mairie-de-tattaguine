@@ -23,19 +23,30 @@ class Router {
     }
 
     public function dispatch(): void {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = urldecode($_SERVER['REQUEST_URI']);
-
-        // Nettoyage de l'URI relative pour Vercel, Cloud et XAMPP local
-        $path = strtok($requestUri, '?');
-
-        // Nettoyer les préfixes éventuels de sous-dossier ou d'entrée /api/index.php ou /public/index.php
-        $scriptName = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-        if ($scriptName !== '/' && $scriptName !== '.' && !empty($scriptName) && str_starts_with($path, $scriptName)) {
-            $path = substr($path, strlen($scriptName));
+        $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        
+        // 1. Détermination du chemin relatif depuis PATH_INFO ou REQUEST_URI
+        if (!empty($_SERVER['PATH_INFO'])) {
+            $rawPath = $_SERVER['PATH_INFO'];
+        } elseif (!empty($_SERVER['REQUEST_URI'])) {
+            $rawPath = $_SERVER['REQUEST_URI'];
+        } else {
+            $rawPath = '/';
         }
 
-        $path = preg_replace('#^/(api/|public/)?index\.php#i', '', $path);
+        $path = strtok($rawPath, '?');
+        $path = urldecode($path);
+
+        // 2. Supprimer les préfixes d'entrée Vercel / Cloud / Apache (/api/index.php, /public/index.php, /index.php)
+        $path = preg_replace('#^/(api/index\.php|public/index\.php|index\.php)#i', '', $path);
+
+        // 3. Supprimer le sous-dossier local XAMPP s'il est présent au début du chemin
+        if (!empty($_SERVER['SCRIPT_NAME'])) {
+            $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+            if ($scriptDir !== '/' && $scriptDir !== '.' && !empty($scriptDir) && str_starts_with($path, $scriptDir)) {
+                $path = substr($path, strlen($scriptDir));
+            }
+        }
 
         if (empty($path)) $path = '/';
         if ($path !== '/' && str_ends_with($path, '/')) {
