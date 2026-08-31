@@ -25,12 +25,21 @@ class Router {
     public function dispatch(): void {
         $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         
-        // 1. Détermination du chemin relatif (REQUEST_URI en priorité absolue pour Vercel/Cloud)
-        $rawPath = $_SERVER['REQUEST_URI'] ?? $_SERVER['PATH_INFO'] ?? '/';
+        // 1. Détermination prioritaire du chemin depuis $_GET['url'] (Vercel rewrite), PATH_INFO ou REQUEST_URI
+        if (!empty($_GET['url'])) {
+            $rawPath = '/' . ltrim($_GET['url'], '/');
+        } elseif (!empty($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/index.php' && $_SERVER['PATH_INFO'] !== '/api/index.php') {
+            $rawPath = $_SERVER['PATH_INFO'];
+        } elseif (!empty($_SERVER['REQUEST_URI'])) {
+            $rawPath = $_SERVER['REQUEST_URI'];
+        } else {
+            $rawPath = '/';
+        }
+
         $path = strtok($rawPath, '?');
         $path = urldecode($path);
 
-        // 2. Supprimer les préfixes d'entrée Vercel / Cloud (/api/index.php, /public/index.php, /index.php, /api, /public)
+        // 2. Supprimer les préfixes d'entrée Vercel / Cloud (/api/index.php, /public/index.php, /index.php)
         $path = preg_replace('#^/(api/index\.php|public/index\.php|index\.php)#i', '', $path);
 
         // 3. Supprimer le sous-dossier local XAMPP s'il est présent au début du chemin
