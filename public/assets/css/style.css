@@ -412,32 +412,42 @@ footer {
         color: #212529 !important;
         font-weight: 600;
         text-decoration: none;
+        border: none !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover, 
+    .nav-links a.active {
+        background-color: #E8F5E9 !important;
+        color: #00853F !important;
     }
 
     .nav-links a.btn-login,
     .nav-links a.btn-register,
     .nav-links a.btn-citoyen,
     .nav-links a.btn-admin {
-        background-color: #000000 !important;
-        color: #FFFFFF !important;
-        text-align: center;
-        font-weight: 700;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        background-color: #F8F9FA !important;
+        color: #212529 !important;
+        text-align: left;
+        font-weight: 600;
+        box-shadow: none !important;
+        border: none !important;
     }
 
     .nav-links a.btn-login:hover,
     .nav-links a.btn-register:hover,
     .nav-links a.btn-citoyen:hover,
     .nav-links a.btn-admin:hover {
-        background-color: #222222 !important;
-        color: #FFFFFF !important;
+        background-color: #E8F5E9 !important;
+        color: #00853F !important;
     }
 
     .nav-links a.btn-logout {
-        background-color: #DC3545 !important;
-        color: #FFFFFF !important;
-        text-align: center;
-        font-weight: 700;
+        background-color: #F8D7DA !important;
+        color: #721C24 !important;
+        text-align: left;
+        font-weight: 600;
     }
 
     .hero {
