@@ -22,7 +22,8 @@
                     <h1>SUNU TATTAGUINE</h1>
                     <p>Portail citoyen et d'information municipale (PATIP-JF)</p>
                 </div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu Mobile">☰</button>
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu(event)" aria-label="Menu Mobile">☰</button>
             <nav>
                 <ul class="nav-links" id="mainNavLinks">
                     <li><a href="<?= BASE_URL ?>" class="<?= ($currentPage ?? 'home') === 'home' ? 'active' : '' ?>">Accueil</a></li>
@@ -60,7 +61,8 @@
     </header>
 
     <script>
-        function toggleMobileMenu() {
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
             const navLinks = document.getElementById('mainNavLinks');
             if (navLinks) {
                 navLinks.classList.toggle('mobile-open');

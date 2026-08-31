@@ -26,10 +26,17 @@ class Router {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $requestUri = urldecode($_SERVER['REQUEST_URI']);
 
-        // Nettoyage de l'URI relative
+        // Nettoyage de l'URI relative pour Vercel, Cloud et XAMPP local
+        $path = strtok($requestUri, '?');
+
+        // Nettoyer les préfixes éventuels de sous-dossier ou d'entrée /api/index.php ou /public/index.php
         $scriptName = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-        $path = str_replace($scriptName, '', $requestUri);
-        $path = strtok($path, '?'); // Ignorer les query strings
+        if ($scriptName !== '/' && $scriptName !== '.' && !empty($scriptName) && str_starts_with($path, $scriptName)) {
+            $path = substr($path, strlen($scriptName));
+        }
+
+        $path = preg_replace('#^/(api/|public/)?index\.php#i', '', $path);
+
         if (empty($path)) $path = '/';
         if ($path !== '/' && str_ends_with($path, '/')) {
             $path = rtrim($path, '/');

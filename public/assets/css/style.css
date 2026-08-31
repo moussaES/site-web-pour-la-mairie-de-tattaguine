@@ -100,49 +100,64 @@ body {
 .btn-admin {
     background-color: var(--primary-color);
     color: #FFF !important;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-weight: 700;
 }
 
 .btn-login {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color) !important;
-    padding: 7px 15px;
-    border-radius: 5px;
-    transition: all 0.2s;
+    background-color: #102C57;
+    color: #FFFFFF !important;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(16, 44, 87, 0.25);
+    transition: all 0.2s ease;
+    display: inline-block;
+    border: none;
 }
 
 .btn-login:hover {
-    background-color: var(--primary-color);
-    color: #FFF !important;
+    background-color: #0A1C38;
+    color: #FFFFFF !important;
+    transform: translateY(-1px);
 }
 
 .btn-register {
-    background-color: var(--secondary-color);
-    color: #FFF !important;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background 0.2s;
+    background-color: #00853F;
+    color: #FFFFFF !important;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 133, 63, 0.3);
+    transition: all 0.2s ease;
+    display: inline-block;
+    border: none;
 }
 
 .btn-register:hover {
     background-color: #006831;
+    color: #FFFFFF !important;
+    transform: translateY(-1px);
 }
 
 .btn-citoyen {
-    background-color: #E8F5E9;
-    color: var(--secondary-color) !important;
-    padding: 7px 14px;
-    border-radius: 5px;
-    font-weight: bold;
+    background-color: #00853F;
+    color: #FFFFFF !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 133, 63, 0.25);
+    display: inline-block;
 }
 
 .btn-logout {
     border: 1px solid #DC3545;
     color: #DC3545 !important;
-    padding: 6px 12px;
-    border-radius: 5px;
+    padding: 7px 14px;
+    border-radius: 6px;
     font-size: 0.85rem;
+    font-weight: 600;
 }
 
 .btn-logout:hover {
