@@ -11,8 +11,22 @@ define('DB_USER', getenv('DB_USER') ?: 'moustaphacode');
 define('DB_PASS', getenv('DB_PASS') !== false && getenv('DB_PASS') !== '' ? getenv('DB_PASS') : 'faye1167');
 define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
-// URLs et Chemins du projet
-define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost/site%20web%20mairie/public');
+// URLs et Chemins du projet avec détection dynamique de l'hôte (Vercel, Cloud & Local)
+if (!empty(getenv('BASE_URL'))) {
+    $baseUrl = getenv('BASE_URL');
+} elseif (!empty($_SERVER['HTTP_HOST'])) {
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+    $scheme = $isHttps ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    if (str_contains($host, 'localhost') || str_contains($host, '127.0.0.1')) {
+        $baseUrl = $scheme . $host . '/site%20web%20mairie/public';
+    } else {
+        $baseUrl = $scheme . $host;
+    }
+} else {
+    $baseUrl = 'http://localhost/site%20web%20mairie/public';
+}
+define('BASE_URL', rtrim($baseUrl, '/'));
 define('SITE_NAME', getenv('SITE_NAME') ?: 'Sunu Tattaguine');
 define('SITE_SLOGAN', getenv('SITE_SLOGAN') ?: 'Portail Citoyen & Mairie de Tattaguine (PATIP-JF)');
 
