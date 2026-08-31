@@ -4,7 +4,7 @@
 // ====================================================================
 
 // Configuration de la base de données MySQL / MariaDB (support local XAMPP & Vercel / Cloud)
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'tattaguine_db');
 define('DB_USER', getenv('DB_USER') ?: 'root');
