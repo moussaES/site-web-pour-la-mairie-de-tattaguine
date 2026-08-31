@@ -98,57 +98,59 @@ body {
 }
 
 .btn-admin {
-    background-color: var(--primary-color);
+    background-color: #000000;
     color: #FFF !important;
     padding: 9px 18px;
     border-radius: 6px;
     font-weight: 700;
+    border: 1px solid #000000;
 }
 
 .btn-login {
-    background-color: #102C57;
+    background-color: #000000;
     color: #FFFFFF !important;
     padding: 9px 18px;
     border-radius: 6px;
     font-weight: 700;
-    box-shadow: 0 2px 8px rgba(16, 44, 87, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     transition: all 0.2s ease;
     display: inline-block;
-    border: none;
+    border: 1px solid #000000;
 }
 
 .btn-login:hover {
-    background-color: #0A1C38;
+    background-color: #222222;
     color: #FFFFFF !important;
     transform: translateY(-1px);
 }
 
 .btn-register {
-    background-color: #00853F;
+    background-color: #000000;
     color: #FFFFFF !important;
     padding: 9px 18px;
     border-radius: 6px;
     font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0, 133, 63, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     transition: all 0.2s ease;
     display: inline-block;
-    border: none;
+    border: 1px solid #000000;
 }
 
 .btn-register:hover {
-    background-color: #006831;
+    background-color: #222222;
     color: #FFFFFF !important;
     transform: translateY(-1px);
 }
 
 .btn-citoyen {
-    background-color: #00853F;
+    background-color: #000000;
     color: #FFFFFF !important;
     padding: 8px 16px;
     border-radius: 6px;
     font-weight: 700;
-    box-shadow: 0 2px 6px rgba(0, 133, 63, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     display: inline-block;
+    border: 1px solid #000000;
 }
 
 .btn-logout {
@@ -341,6 +343,14 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #FFF;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
     .top-bar {
         flex-direction: column;
         text-align: center;
@@ -352,6 +362,15 @@ footer {
     .nav-container {
         padding: 10px 15px;
         position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .logo-section {
+        display: flex;
+        align-items: center;
     }
 
     .logo-section h1 {
@@ -364,6 +383,7 @@ footer {
 
     .mobile-menu-btn {
         display: block;
+        margin-left: auto;
     }
 
     .nav-links {
@@ -373,6 +393,7 @@ footer {
         gap: 10px;
         padding: 15px 0 10px;
         border-top: 1px solid #EEE;
+        margin-top: 10px;
     }
 
     .nav-links.mobile-open {
