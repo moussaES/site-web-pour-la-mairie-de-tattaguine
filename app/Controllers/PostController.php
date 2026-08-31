@@ -71,9 +71,9 @@ class PostController extends Controller {
         $post = $postModel->getBySlug($slug);
 
         if (!$post) {
-            http_response_code(404);
-            $this->render('home/index', ['pageTitle' => 'Article Non Trouvé']);
-            return;
+            $_SESSION['flash_error'] = "L'article ou la vidéo demandée n'a pas été trouvé(e).";
+            header('Location: ' . BASE_URL . '/actualites');
+            exit;
         }
 
         // Incrémenter le nombre de vues
