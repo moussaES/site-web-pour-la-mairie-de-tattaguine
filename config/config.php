@@ -55,8 +55,27 @@ define('FIREBASE_APP_ID', getenv('FIREBASE_APP_ID') ?: '1:254091229105:web:1b767
 define('FIREBASE_VAPID_KEY', getenv('FIREBASE_VAPID_KEY') ?: 'BN0rV3QbhkD1Hnc6iqCylOYbf-Jykl0aGdh2ahxD_zUfQzl8FlL8EyWQNSSiq7_bt5yuLs7UKwwLCL6ETVg5WDg');
 define('FIREBASE_SERVER_KEY', getenv('FIREBASE_SERVER_KEY') ?: 'VOTRE_SERVER_KEY_FIREBASE');
 
-// Configuration de la session
+// Configuration de la durée de session (Connexion citoyenne et admin persistante pendant 7 jours / 604 800s)
+$sessionLifetime = 604800; // 7 jours
+ini_set('session.gc_maxlifetime', (string)$sessionLifetime);
+ini_set('session.cookie_lifetime', (string)$sessionLifetime);
+
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => $sessionLifetime,
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
     session_start();
+}
+
+if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), $_COOKIE[session_name()], [
+        'expires'  => time() + $sessionLifetime,
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
 }
 
