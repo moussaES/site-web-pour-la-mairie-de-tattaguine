@@ -7,27 +7,27 @@
   "routes": [
     {
       "src": "/public/assets/(.*)",
-      "dest": "/public/assets/$1"
+      "dest": "/assets/$1"
     },
     {
       "src": "/assets/(.*)",
-      "dest": "/public/assets/$1"
+      "dest": "/assets/$1"
     },
     {
       "src": "/public/uploads/(.*)",
-      "dest": "/public/uploads/$1"
+      "dest": "/uploads/$1"
     },
     {
       "src": "/uploads/(.*)",
-      "dest": "/public/uploads/$1"
+      "dest": "/uploads/$1"
     },
     {
       "src": "/public/firebase-messaging-sw.js",
-      "dest": "/public/firebase-messaging-sw.js"
+      "dest": "/firebase-messaging-sw.js"
     },
     {
       "src": "/firebase-messaging-sw.js",
-      "dest": "/public/firebase-messaging-sw.js"
+      "dest": "/firebase-messaging-sw.js"
     },
     {
       "src": "/(.*)",
