@@ -86,12 +86,14 @@ body.admin-body {
 }
 
 .badge-pending {
-    background-color: var(--admin-danger);
-    color: #FFF;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: bold;
+    background-color: #E31B23 !important;
+    color: #FFFFFF !important;
+    font-size: 0.8rem !important;
+    padding: 3px 10px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 8px rgba(227,27,35,0.7) !important;
+    display: inline-block !important;
 }
 
 .sidebar-footer {

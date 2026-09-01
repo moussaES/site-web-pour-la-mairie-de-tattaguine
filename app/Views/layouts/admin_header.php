@@ -17,6 +17,14 @@
             <h2>SUNU TATTAGUINE</h2>
             <p>Espace d'Administration</p>
         </div>
+        <?php 
+            require_once APP_PATH . '/Models/ContactMessage.php';
+            require_once APP_PATH . '/Models/Comment.php';
+            $headerContactModel = new ContactMessage();
+            $headerCommentModel = new Comment();
+            $unreadMessagesCount = $headerContactModel->countUnread();
+            $pendingCommentsCount = $headerCommentModel->countPending();
+        ?>
         <ul class="sidebar-menu">
             <li>
                 <a href="<?= BASE_URL ?>/admin/dashboard" class="<?= ($activeTab ?? '') === 'dashboard' ? 'active' : '' ?>">
@@ -31,16 +39,16 @@
             <li>
                 <a href="<?= BASE_URL ?>/admin/comments" class="<?= ($activeTab ?? '') === 'comments' ? 'active' : '' ?>">
                     <span>Modération Commentaires</span>
-                    <?php if (!empty($pendingCommentsCount) && $pendingCommentsCount > 0): ?>
-                        <span class="badge-pending" style="background:#E31B23; color:#FFF; font-weight:bold; padding:2px 8px; border-radius:10px; box-shadow:0 0 6px rgba(227,27,35,0.6);"><?= $pendingCommentsCount ?></span>
+                    <?php if ($pendingCommentsCount > 0): ?>
+                        <span class="badge-pending" style="background-color:#E31B23 !important; color:#FFFFFF !important; font-weight:bold; font-size:0.8rem; padding:3px 10px; border-radius:12px; box-shadow:0 0 8px rgba(227,27,35,0.8); display:inline-block; margin-left:auto;"><?= $pendingCommentsCount ?></span>
                     <?php endif; ?>
                 </a>
             </li>
             <li>
                 <a href="<?= BASE_URL ?>/admin/messages" class="<?= ($activeTab ?? '') === 'messages' ? 'active' : '' ?>">
                     <span>Messages Citoyens</span>
-                    <?php if (!empty($unreadMessagesCount) && $unreadMessagesCount > 0): ?>
-                        <span class="badge-pending" style="background:#E31B23; color:#FFF; font-weight:bold; padding:2px 8px; border-radius:10px; box-shadow:0 0 6px rgba(227,27,35,0.6);"><?= $unreadMessagesCount ?></span>
+                    <?php if ($unreadMessagesCount > 0): ?>
+                        <span class="badge-pending" style="background-color:#E31B23 !important; color:#FFFFFF !important; font-weight:bold; font-size:0.8rem; padding:3px 10px; border-radius:12px; box-shadow:0 0 8px rgba(227,27,35,0.8); display:inline-block; margin-left:auto;"><?= $unreadMessagesCount ?></span>
                     <?php endif; ?>
                 </a>
             </li>
