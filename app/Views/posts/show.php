@@ -21,7 +21,7 @@
     <?php if (!empty($post['video_url'])): ?>
         <div id="video-player" style="margin-bottom:30px; background:#000; border-radius:8px; overflow:hidden;">
             <?php 
-                $vUrl = $post['video_url'];
+                $vUrl = trim($post['video_url']);
                 if (str_contains($vUrl, 'youtube.com') || str_contains($vUrl, 'youtu.be')) {
                     preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/', $vUrl, $matches);
                     $youtubeId = $matches[1] ?? '';
@@ -30,9 +30,24 @@
                         echo '<iframe src="https://www.youtube.com/embed/' . $youtubeId . '" frameborder="0" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
                         echo '</div>';
                     }
+                } elseif (str_contains($vUrl, 'vimeo.com')) {
+                    preg_match('/vimeo\.com\/(?:video\/)?(\d+)/', $vUrl, $matches);
+                    $vimeoId = $matches[1] ?? '';
+                    if ($vimeoId) {
+                        echo '<div style="position:relative; padding-bottom:56.25%; height:0;">';
+                        echo '<iframe src="https://player.vimeo.com/video/' . $vimeoId . '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                        echo '</div>';
+                    }
                 } else {
+                    $cleanVUrl = ltrim($vUrl, '/');
+                    if (str_starts_with($cleanVUrl, 'public/')) {
+                        $cleanVUrl = substr($cleanVUrl, 7);
+                    }
+                    $videoSrc = (str_starts_with($vUrl, 'http://') || str_starts_with($vUrl, 'https://'))
+                        ? $vUrl
+                        : BASE_URL . '/' . ltrim($cleanVUrl, '/');
                     echo '<video controls style="width:100%; max-height:450px;">';
-                    echo '<source src="' . (str_starts_with($vUrl, 'http') ? Security::sanitize($vUrl) : BASE_URL . '/' . Security::sanitize($vUrl)) . '">';
+                    echo '<source src="' . Security::sanitize($videoSrc) . '">';
                     echo 'Votre navigateur ne supporte pas la lecture de cette vidéo.';
                     echo '</video>';
                 }

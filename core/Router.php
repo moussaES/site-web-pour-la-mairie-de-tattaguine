@@ -44,12 +44,26 @@ class Router {
         // 2. Supprimer les préfixes d'entrée Vercel / Cloud (/api/index.php, /public/index.php, /index.php)
         $path = preg_replace('#^/(api/index\.php|public/index\.php|index\.php)#i', '', $path);
 
-        // 3. Supprimer le sous-dossier local XAMPP s'il est présent au début du chemin
+        // 3. Supprimer le sous-dossier local XAMPP et le dossier /public s'ils sont présents au début du chemin
         if (!empty($_SERVER['SCRIPT_NAME'])) {
             $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-            if ($scriptDir !== '/' && $scriptDir !== '.' && !empty($scriptDir) && $scriptDir !== '/api' && str_starts_with($path, $scriptDir)) {
-                $path = substr($path, strlen($scriptDir));
+            if ($scriptDir !== '/' && $scriptDir !== '.' && !empty($scriptDir) && $scriptDir !== '/api') {
+                if (str_starts_with($path, $scriptDir)) {
+                    $path = substr($path, strlen($scriptDir));
+                }
+                // Si scriptDir se termine par /public (ex: /site%20web%20mairie/public), tenter la suppression du dossier parent sans /public
+                $baseDirWithoutPublic = preg_replace('#/public$#i', '', $scriptDir);
+                if (!empty($baseDirWithoutPublic) && $baseDirWithoutPublic !== '/' && str_starts_with($path, $baseDirWithoutPublic)) {
+                    $path = substr($path, strlen($baseDirWithoutPublic));
+                }
             }
+        }
+
+        // Supprimer un préfixe /public résiduel si l'URL contient explicitement ou non /public
+        if (str_starts_with($path, '/public/')) {
+            $path = substr($path, 7);
+        } elseif ($path === '/public') {
+            $path = '/';
         }
 
         if (empty($path)) $path = '/';

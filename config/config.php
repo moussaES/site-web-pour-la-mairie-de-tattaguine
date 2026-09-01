@@ -18,7 +18,11 @@ if (!empty(getenv('BASE_URL'))) {
     $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
     $scheme = $isHttps ? 'https://' : 'http://';
     $host = $_SERVER['HTTP_HOST'];
-    if (str_contains($host, 'localhost') || str_contains($host, '127.0.0.1')) {
+    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+    $scriptDir = rtrim($scriptDir, '/');
+    if (!empty($scriptDir) && $scriptDir !== '.' && $scriptDir !== '/' && $scriptDir !== '/api') {
+        $baseUrl = $scheme . $host . $scriptDir;
+    } elseif (str_contains($host, 'localhost') || str_contains($host, '127.0.0.1')) {
         $baseUrl = $scheme . $host . '/site%20web%20mairie/public';
     } else {
         $baseUrl = $scheme . $host;
