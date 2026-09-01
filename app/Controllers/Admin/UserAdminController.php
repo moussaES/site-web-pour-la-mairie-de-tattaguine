@@ -19,6 +19,9 @@ class UserAdminController extends Controller {
             header('Location: ' . BASE_URL . '/admin/dashboard');
             exit;
         }
+
+        // Vérification de l'inactivité administrateur (expiration après 30 minutes d'inactivité)
+        Security::checkAdminSessionTimeout(1800);
     }
 
     public function index(): void {

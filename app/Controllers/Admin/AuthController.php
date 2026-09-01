@@ -76,6 +76,7 @@ class AuthController extends Controller {
             $_SESSION['full_name']   = $user['full_name'];
             $_SESSION['role_name']   = $user['role_name'];
             $_SESSION['role_label']  = $user['role_label'];
+            $_SESSION['admin_last_activity'] = time();
 
             $this->redirect('/admin/dashboard');
         } else {

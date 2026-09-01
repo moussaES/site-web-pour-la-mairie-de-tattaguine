@@ -65,4 +65,24 @@ class Security {
         unset($_SESSION['captcha_answer']);
         return $valid;
     }
+
+    /**
+     * Vérification de l'inactivité de session administrateur (30 minutes max = 1800s)
+     */
+    public static function checkAdminSessionTimeout(int $maxInactivitySeconds = 1800): void {
+        if (!empty($_SESSION['user_id']) && in_array($_SESSION['role_name'] ?? '', ['super_admin', 'redacteur'])) {
+            if (isset($_SESSION['admin_last_activity'])) {
+                $inactiveTime = time() - (int)$_SESSION['admin_last_activity'];
+                if ($inactiveTime > $maxInactivitySeconds) {
+                    // La session admin a dépassé 30 minutes d'inactivité
+                    unset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['full_name'], $_SESSION['email'], $_SESSION['role_name'], $_SESSION['role_label'], $_SESSION['admin_last_activity']);
+                    $_SESSION['flash_error'] = "Votre session administrateur a expiré après 30 minutes d'inactivité par mesure de sécurité.";
+                    header('Location: ' . BASE_URL . '/admin/login');
+                    exit;
+                }
+            }
+            // Mettre à jour la date/heure de dernière activité de l'administrateur
+            $_SESSION['admin_last_activity'] = time();
+        }
+    }
 }

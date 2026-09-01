@@ -24,6 +24,9 @@ class DocumentAdminController extends Controller {
             header('Location: ' . BASE_URL . '/mon-espace');
             exit;
         }
+
+        // Vérification de l'inactivité administrateur (expiration après 30 minutes d'inactivité)
+        Security::checkAdminSessionTimeout(1800);
     }
 
     private function getValidAuthorId(): int {
