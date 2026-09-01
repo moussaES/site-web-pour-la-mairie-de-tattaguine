@@ -6,6 +6,7 @@
 namespace Admin;
 
 use Controller;
+use Security;
 use Post;
 use Comment;
 use ContactMessage;
@@ -33,7 +34,7 @@ class DashboardController extends Controller {
         }
 
         // Vérification de l'inactivité administrateur (expiration après 30 minutes d'inactivité)
-        Security::checkAdminSessionTimeout(1800);
+        \Security::checkAdminSessionTimeout(1800);
     }
 
     public function index(): void {
