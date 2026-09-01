@@ -23,7 +23,7 @@ require_once APP_PATH . '/Views/layouts/admin_header.php';
     <div class="table-header">
         <h3 style="margin:0; color:var(--admin-sidebar-bg);">Tous les Messages Reçus</h3>
         <?php if (!empty($unreadCount) && $unreadCount > 0): ?>
-            <span class="badge-pending" style="font-size:0.9rem; padding:6px 14px;"><?= $unreadCount ?> message(s) non lu(s)</span>
+            <span class="badge-pending" style="background-color:#E31B23; color:#FFF; font-size:0.9rem; padding:6px 14px; font-weight:bold; border-radius:20px; box-shadow:0 0 8px rgba(227,27,35,0.4);"><?= $unreadCount ?> message(s) non lu(s)</span>
         <?php endif; ?>
     </div>
 

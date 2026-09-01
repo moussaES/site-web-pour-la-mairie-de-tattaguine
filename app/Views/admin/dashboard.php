@@ -34,10 +34,15 @@ require_once APP_PATH . '/Views/layouts/admin_header.php';
             <div class="stat-label">Commentaires à Modérer</div>
         </div>
     </div>
-    <a href="<?= BASE_URL ?>/admin/messages" class="stat-card" style="text-decoration:none; color:inherit; cursor:pointer;">
-        <div class="stat-icon" style="background-color:#E3F2FD; color:#1976D2;">✉️</div>
+    <a href="<?= BASE_URL ?>/admin/messages" class="stat-card" style="text-decoration:none; color:inherit; cursor:pointer; <?= !empty($unreadMessages) && $unreadMessages > 0 ? 'border-left:4px solid #E31B23;' : '' ?>">
+        <div class="stat-icon" style="background-color:<?= !empty($unreadMessages) && $unreadMessages > 0 ? '#FFEBEE' : '#E3F2FD' ?>; color:<?= !empty($unreadMessages) && $unreadMessages > 0 ? '#E31B23' : '#1976D2' ?>;">✉️</div>
         <div>
-            <div class="stat-number"><?= $unreadMessages ?></div>
+            <div class="stat-number" style="<?= !empty($unreadMessages) && $unreadMessages > 0 ? 'color:#E31B23; font-weight:bold;' : '' ?>">
+                <?= $unreadMessages ?>
+                <?php if (!empty($unreadMessages) && $unreadMessages > 0): ?>
+                    <span style="background-color:#E31B23; color:#FFF; font-size:0.75rem; padding:2px 8px; border-radius:10px; vertical-align:middle; margin-left:6px; font-weight:bold; box-shadow:0 0 6px rgba(227,27,35,0.5);">🔔 Non lu(s)</span>
+                <?php endif; ?>
+            </div>
             <div class="stat-label">Messages Citoyens Non Lus</div>
         </div>
     </a>

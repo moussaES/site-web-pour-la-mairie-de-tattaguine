@@ -32,7 +32,7 @@
                 <a href="<?= BASE_URL ?>/admin/comments" class="<?= ($activeTab ?? '') === 'comments' ? 'active' : '' ?>">
                     <span>Modération Commentaires</span>
                     <?php if (!empty($pendingCommentsCount) && $pendingCommentsCount > 0): ?>
-                        <span class="badge-pending"><?= $pendingCommentsCount ?></span>
+                        <span class="badge-pending" style="background:#E31B23; color:#FFF; font-weight:bold; padding:2px 8px; border-radius:10px; box-shadow:0 0 6px rgba(227,27,35,0.6);"><?= $pendingCommentsCount ?></span>
                     <?php endif; ?>
                 </a>
             </li>
@@ -40,7 +40,7 @@
                 <a href="<?= BASE_URL ?>/admin/messages" class="<?= ($activeTab ?? '') === 'messages' ? 'active' : '' ?>">
                     <span>Messages Citoyens</span>
                     <?php if (!empty($unreadMessagesCount) && $unreadMessagesCount > 0): ?>
-                        <span class="badge-pending" style="background:var(--admin-warning); color:#000;"><?= $unreadMessagesCount ?></span>
+                        <span class="badge-pending" style="background:#E31B23; color:#FFF; font-weight:bold; padding:2px 8px; border-radius:10px; box-shadow:0 0 6px rgba(227,27,35,0.6);"><?= $unreadMessagesCount ?></span>
                     <?php endif; ?>
                 </a>
             </li>
