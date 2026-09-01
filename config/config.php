@@ -25,7 +25,7 @@ if (!empty(getenv('BASE_URL'))) {
     } elseif (str_contains($host, 'localhost') || str_contains($host, '127.0.0.1')) {
         $baseUrl = $scheme . $host . '/site%20web%20mairie/public';
     } else {
-        $baseUrl = $scheme . $host;
+        $baseUrl = $scheme . $host . '/public';
     }
 } else {
     $baseUrl = 'http://localhost/site%20web%20mairie/public';
