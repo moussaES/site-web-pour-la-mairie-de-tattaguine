@@ -86,6 +86,38 @@ define('FIREBASE_SERVER_KEY', 'votre_server_key');
 
 ---
 
+## 🔐 Guide de Configuration Google OAuth 2.0 (Google Cloud Console)
+
+Pour activer l'authentification Google Sign-In sans erreur `origin_mismatch` (Erreur 400), suivez cette procédure :
+
+1. Accédez à la **Console Google Cloud** : [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials).
+2. Dans le menu de gauche **Google Auth Platform**, cliquez sur **Clients**.
+3. Sélectionnez votre **ID client OAuth 2.0** dans la liste.
+4. Renseignez les sections de configuration d'origine :
+
+#### 🌐 Origines JavaScript autorisées (*Authorized JavaScript origins*) :
+* `https://sunu-tattaguine.vercel.app`
+* `http://localhost`
+* `http://127.0.0.1`
+
+#### 🔄 URI de redirection autorisés (*Authorized redirect URIs*) :
+* `https://sunu-tattaguine.vercel.app/auth/google`
+* `https://sunu-tattaguine.vercel.app/public/auth/google`
+* `http://localhost/site%20web%20mairie/public/auth/google`
+
+5. Cliquez sur **Enregistrer** (*Save*).
+
+---
+
+## 🌐 Routage & Déploiement Vercel (`public/`)
+
+Le projet est configuré pour gérer de manière transparente les URLs avec ou sans le préfixe `/public` sur Vercel et serveurs Apache local (XAMPP).
+
+* **Routage dynamique (`core/Router.php`)** : Prise en charge automatique des requêtes `/actualites/...` et `/public/actualites/...`.
+* **Fichiers statiques (`vercel.json`)** : Routage direct des assets CSS/JS (`/assets/...` & `/public/assets/...`) et téléversements d'images/vidéos (`/uploads/...` & `/public/uploads/...`).
+
+---
+
 ## 📄 Licence & Crédits
 
 * **Éditeur** : Mairie de la Commune de Tattaguine (Région de Fatick, Sénégal).
