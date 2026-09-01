@@ -85,46 +85,57 @@
         <h3 style="color:var(--primary-color); margin-top:0; margin-bottom:20px;">Mes Messages Envoyés à la Mairie</h3>
         
         <?php if (!empty($messages)): ?>
-            <div style="overflow-x:auto;">
-                <table style="width:100%; border-collapse:collapse; text-align:left;">
-                    <thead>
-                        <tr style="border-bottom:2px solid #EEE; color:var(--primary-color);">
-                            <th style="padding:12px;">Date</th>
-                            <th style="padding:12px;">Objet</th>
-                            <th style="padding:12px;">Message</th>
-                            <th style="padding:12px;">Statut</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($messages as $msg): ?>
-                            <tr style="border-bottom:1px solid #EEE;">
-                                <td style="padding:12px; font-size:0.9rem; color:var(--text-muted);"><?= date('d/m/Y H:i', strtotime($msg['created_at'])) ?></td>
-                                <td style="padding:12px; font-weight:bold;"><?= Security::sanitize($msg['subject']) ?></td>
-                                <td style="padding:12px; font-size:0.9rem; max-width:320px;">
-                                    <?= nl2br(Security::sanitize($msg['message'])) ?>
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <?php foreach ($messages as $msg): ?>
+                    <div class="citizen-message-card">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px; border-bottom:1px solid #F0F0F0; padding-bottom:10px;">
+                            <div>
+                                <h4 style="margin:0 0 4px 0; color:var(--primary-color); font-size:1.1rem; font-weight:700;">
+                                    <?= Security::sanitize($msg['subject']) ?>
+                                </h4>
+                                <span style="font-size:0.85rem; color:var(--text-muted); display:inline-block;">
+                                    📅 Envoyé le <?= date('d/m/Y à H:i', strtotime($msg['created_at'])) ?>
+                                </span>
+                            </div>
+                            <div>
+                                <?php if (!empty($msg['admin_reply'])): ?>
+                                    <span style="background:#D4EDDA; color:#155724; padding:5px 12px; border-radius:20px; font-size:0.8rem; font-weight:bold; display:inline-block;">
+                                        ✅ Répondu par la Mairie
+                                    </span>
+                                <?php elseif ($msg['is_read']): ?>
+                                    <span style="background:#D1ECF1; color:#0C5460; padding:5px 12px; border-radius:20px; font-size:0.8rem; font-weight:bold; display:inline-block;">
+                                        👁️ Lu par la Mairie
+                                    </span>
+                                <?php else: ?>
+                                    <span style="background:#FFF3CD; color:#856404; padding:5px 12px; border-radius:20px; font-size:0.8rem; font-weight:bold; display:inline-block;">
+                                        ⏳ En attente de lecture
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
 
-                                    <?php if (!empty($msg['admin_reply'])): ?>
-                                        <div style="margin-top:10px; background:#E8F5E9; border-left:3px solid #2E7D32; padding:10px; border-radius:4px; font-size:0.85rem; color:#1B5E20;">
-                                            <strong>🏛️ Réponse Mairie :</strong> <?= nl2br(Security::sanitize($msg['admin_reply'])) ?>
-                                            <?php if (!empty($msg['replied_at'])): ?>
-                                                <div style="font-size:0.75rem; color:#555; margin-top:4px;"><?= date('d/m/Y H:i', strtotime($msg['replied_at'])) ?></div>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
-                                <td style="padding:12px;">
-                                    <?php if (!empty($msg['admin_reply'])): ?>
-                                        <span style="background:#D4EDDA; color:#155724; padding:4px 10px; border-radius:4px; font-size:0.8rem; font-weight:bold;">Répondu par la Mairie</span>
-                                    <?php elseif ($msg['is_read']): ?>
-                                        <span style="background:#D1ECF1; color:#0C5460; padding:4px 10px; border-radius:4px; font-size:0.8rem; font-weight:bold;">Lu par la Mairie</span>
-                                    <?php else: ?>
-                                        <span style="background:#FFF3CD; color:#856404; padding:4px 10px; border-radius:4px; font-size:0.8rem; font-weight:bold;">En attente de lecture</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        <!-- Contenu du message -->
+                        <div style="font-size:0.95rem; color:#333; line-height:1.6; margin-bottom:15px; background:#F8F9FA; padding:12px 15px; border-radius:8px; border-left:4px solid var(--primary-color);">
+                            <strong style="color:var(--primary-color); font-size:0.85rem; display:block; margin-bottom:4px;">💬 Votre Message :</strong>
+                            <?= nl2br(Security::sanitize($msg['message'])) ?>
+                        </div>
+
+                        <!-- Réponse officielle de la Mairie -->
+                        <?php if (!empty($msg['admin_reply'])): ?>
+                            <div style="background:#F4F9F5; border-left:5px solid #00853F; padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
+                                <strong style="color:#00853F; font-size:0.95rem; display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                                    🏛️ Réponse Officielle — Mairie de Tattaguine
+                                </strong>
+                                <p style="margin:0; color:#222; font-size:0.95rem; line-height:1.6;"><?= nl2br(Security::sanitize($msg['admin_reply'])) ?></p>
+                                <?php if (!empty($msg['replied_at'])): ?>
+                                    <div style="font-size:0.8rem; color:#666; margin-top:8px; text-align:right;">
+                                        Transmis le <?= date('d/m/Y à H:i', strtotime($msg['replied_at'])) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php else: ?>
             <p style="color:var(--text-muted); margin:0;">Vous n'avez pas encore envoyé de message au service municipal. <a href="<?= BASE_URL ?>/contact" style="color:var(--secondary-color); font-weight:bold;">Contacter la Mairie</a></p>

@@ -26,7 +26,7 @@
                 <input type="email" name="email" required placeholder="ex: mamadou@gmail.com" style="width:100%; padding:11px; border:1px solid #CCC; border-radius:6px; font-size:0.95rem;">
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+            <div class="form-row">
                 <div>
                     <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Mot de passe *</label>
                     <input type="password" name="password" required placeholder="••••••••" style="width:100%; padding:11px; border:1px solid #CCC; border-radius:6px; font-size:0.95rem;">

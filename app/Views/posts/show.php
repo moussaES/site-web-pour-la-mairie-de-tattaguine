@@ -149,7 +149,7 @@
             <form action="<?= BASE_URL ?>/actualites/<?= Security::sanitize($post['slug']) ?>/commentaire" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                <div class="form-row">
                     <div>
                         <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Expéditeur connecté</label>
                         <input type="text" value="<?= Security::sanitize($_SESSION['full_name'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">

@@ -483,3 +483,46 @@ footer {
         height: auto;
     }
 }
+
+/* ====================================================================
+   GRILLES ET FORMULAIRES RESPONSIFS SMARTPHONES & MOBILES
+   ==================================================================== */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.citizen-message-card {
+    background: #FFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+@media (max-width: 850px) {
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 25px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .citizen-message-card {
+        padding: 15px !important;
+    }
+}

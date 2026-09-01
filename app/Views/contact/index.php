@@ -18,10 +18,10 @@
         </div>
     <?php endif; ?>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+    <div class="contact-grid">
         
         <!-- Formulaire de contact -->
-        <div style="background:#FFF; padding:30px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+        <div style="background:#FFF; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
             <h3 style="color:var(--primary-color); margin-top:0; margin-bottom:20px;">Formulaire de Message Citoyen</h3>
             
             <?php if (empty($_SESSION['user_id'])): ?>
@@ -43,7 +43,7 @@
                         <input type="text" value="<?= Security::sanitize($_SESSION['full_name'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
                     </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                    <div class="form-row">
                         <div>
                             <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">Adresse E-mail</label>
                             <input type="email" value="<?= Security::sanitize($_SESSION['email'] ?? '') ?>" disabled style="width:100%; padding:10px; border:1px solid #CCC; border-radius:6px; background:#F4F6F9; color:#555;">
