@@ -22,23 +22,65 @@
         <div id="video-player" style="margin-bottom:30px; background:#000; border-radius:8px; overflow:hidden;">
             <?php 
                 $vUrl = trim($post['video_url']);
-                if (str_contains($vUrl, 'youtube.com') || str_contains($vUrl, 'youtu.be')) {
-                    preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/', $vUrl, $matches);
+                
+                // 1. Si l'administrateur a directement collé un code <iframe> complet
+                if (str_contains(strtolower($vUrl), '<iframe')) {
+                    // Injecter des styles responsifs pour que le code iframe colle à la taille du conteneur
+                    $styledIframe = preg_replace('/width=["\'][^"\']*["\']/', 'width="100%"', $vUrl);
+                    $styledIframe = preg_replace('/height=["\'][^"\']*["\']/', 'height="450"', $styledIframe);
+                    echo '<div style="width:100%; max-height:500px; overflow:hidden;">' . $styledIframe . '</div>';
+                }
+                // 2. YouTube Shorts (format vertical 9:16)
+                elseif (str_contains($vUrl, 'youtube.com/shorts/')) {
+                    preg_match('/youtube\.com\/shorts\/([\w-]{11})/', $vUrl, $matches);
+                    $youtubeId = $matches[1] ?? '';
+                    if ($youtubeId) {
+                        echo '<div style="max-width:380px; margin:0 auto; padding:15px 0;">';
+                        echo '  <div style="position:relative; padding-bottom:177.77%; height:0; border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.5);">';
+                        echo '    <iframe src="https://www.youtube.com/embed/' . $youtubeId . '?autoplay=0&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                        echo '  </div>';
+                        echo '</div>';
+                    }
+                }
+                // 3. YouTube standard (watch, embed, live, youtu.be)
+                elseif (str_contains($vUrl, 'youtube.com') || str_contains($vUrl, 'youtu.be')) {
+                    preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|live\/|watch\?v=|watch\?.+&v=))([\w-]{11})/', $vUrl, $matches);
                     $youtubeId = $matches[1] ?? '';
                     if ($youtubeId) {
                         echo '<div style="position:relative; padding-bottom:56.25%; height:0;">';
-                        echo '<iframe src="https://www.youtube.com/embed/' . $youtubeId . '" frameborder="0" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                        echo '  <iframe src="https://www.youtube.com/embed/' . $youtubeId . '?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
                         echo '</div>';
                     }
-                } elseif (str_contains($vUrl, 'vimeo.com')) {
+                }
+                // 4. Vimeo
+                elseif (str_contains($vUrl, 'vimeo.com')) {
                     preg_match('/vimeo\.com\/(?:video\/)?(\d+)/', $vUrl, $matches);
                     $vimeoId = $matches[1] ?? '';
                     if ($vimeoId) {
                         echo '<div style="position:relative; padding-bottom:56.25%; height:0;">';
-                        echo '<iframe src="https://player.vimeo.com/video/' . $vimeoId . '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                        echo '  <iframe src="https://player.vimeo.com/video/' . $vimeoId . '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
                         echo '</div>';
                     }
-                } else {
+                }
+                // 5. Google Drive Vidéo
+                elseif (str_contains($vUrl, 'drive.google.com')) {
+                    preg_match('/drive\.google\.com\/file\/d\/([^\/]+)/', $vUrl, $matches);
+                    $driveId = $matches[1] ?? '';
+                    if ($driveId) {
+                        echo '<div style="position:relative; padding-bottom:56.25%; height:0;">';
+                        echo '  <iframe src="https://drive.google.com/file/d/' . $driveId . '/preview" frameborder="0" allow="autoplay" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                        echo '</div>';
+                    }
+                }
+                // 6. Facebook / Facebook Reels Vidéo
+                elseif (str_contains($vUrl, 'facebook.com') || str_contains($vUrl, 'fb.watch')) {
+                    $fbEmbedUrl = 'https://www.facebook.com/plugins/video.php?href=' . urlencode($vUrl) . '&show_text=false';
+                    echo '<div style="position:relative; padding-bottom:56.25%; height:0;">';
+                    echo '  <iframe src="' . $fbEmbedUrl . '" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
+                    echo '</div>';
+                }
+                // 7. Fichier Vidéo direct (MP4, WebM, OGG) ou local
+                else {
                     $cleanVUrl = ltrim($vUrl, '/');
                     if (str_starts_with($cleanVUrl, 'public/')) {
                         $cleanVUrl = substr($cleanVUrl, 7);
@@ -46,10 +88,14 @@
                     $videoSrc = (str_starts_with($vUrl, 'http://') || str_starts_with($vUrl, 'https://'))
                         ? $vUrl
                         : BASE_URL . '/' . ltrim($cleanVUrl, '/');
-                    echo '<video controls style="width:100%; max-height:450px;">';
-                    echo '<source src="' . Security::sanitize($videoSrc) . '">';
-                    echo 'Votre navigateur ne supporte pas la lecture de cette vidéo.';
+                    
+                    echo '<video controls preload="metadata" playsinline style="width:100%; max-height:480px; display:block;">';
+                    echo '  <source src="' . Security::sanitize($videoSrc) . '">';
+                    echo '  Votre navigateur ne supporte pas la lecture directe de cette vidéo.';
                     echo '</video>';
+                    echo '<p style="padding:10px; margin:0; text-align:center; background:#111; font-size:0.85rem; color:#CCC;">';
+                    echo '  Si la vidéo ne se charge pas, <a href="' . Security::sanitize($videoSrc) . '" target="_blank" style="color:#FFD700; text-decoration:underline;">cliquez ici pour ouvrir le fichier vidéo</a>.';
+                    echo '</p>';
                 }
             ?>
         </div>
