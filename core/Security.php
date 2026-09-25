@@ -42,7 +42,10 @@ class Security {
     /**
      * Vérification du mot de passe
      */
-    public static function verifyPassword(string $password, string $hash): bool {
+    public static function verifyPassword(string $password, ?string $hash): bool {
+        if (empty($hash)) {
+            return false;
+        }
         return password_verify($password, $hash);
     }
 

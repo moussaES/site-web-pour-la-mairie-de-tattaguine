@@ -60,7 +60,7 @@ class AuthController extends Controller {
         $userModel = new User();
         $user = $userModel->findByUsernameOrEmail($identifier);
 
-        if ($user && Security::verifyPassword($password, $user['password_hash'])) {
+        if ($user && !empty($user['password_hash']) && Security::verifyPassword($password, $user['password_hash'])) {
             // Vérifier si le compte est actif
             if (isset($user['is_active']) && (int)$user['is_active'] === 0) {
                 $_SESSION['flash_error'] = 'Votre compte d\'agent municipal a été désactivé par le Super-Administrateur. Veuillez contacter la mairie.';
