@@ -16,7 +16,7 @@
             <div class="footer-col">
                 <h3>Mairie de Tattaguine</h3>
                 <p>Adresse : Hôtel de Ville, Commune de Tattaguine</p>
-                <p>Horaires : Lundi - Vendredi : 08h00 - 17h00</p>
+                <p>Horaires : Lundi - Vendredi : 08h00 - 14h00</p>
             </div>
         </div>
         <div class="footer-bottom">
