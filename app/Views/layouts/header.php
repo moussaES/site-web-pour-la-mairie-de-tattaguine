@@ -18,6 +18,7 @@
     <header class="main-header">
         <div class="nav-container">
             <a href="<?= BASE_URL ?>" class="logo-section">
+                <img src="<?= BASE_URL ?>/assets/images/logo.jpg" alt="Logo Mairie de Tattaguine" class="site-logo">
                 <div>
                     <h1>SUNU TATTAGUINE</h1>
                     <p>Portail citoyen et d'information municipale (PATIP-JF)</p>

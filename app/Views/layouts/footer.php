@@ -1,7 +1,10 @@
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <h3>SUNU TATTAGUINE</h3>
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                    <img src="<?= BASE_URL ?>/assets/images/logo.jpg" alt="Logo Mairie de Tattaguine" class="footer-logo">
+                    <h3 style="margin:0;">SUNU TATTAGUINE</h3>
+                </div>
                 <p>Portail citoyen d'information, de transparence et d'interaction de la Commune de Tattaguine (Programme PATIP-JF).</p>
             </div>
             <div class="footer-col">
@@ -9,7 +12,6 @@
                 <p><a href="<?= BASE_URL ?>/actualites" style="color:#FFF;">• Actualités locales</a></p>
                 <p><a href="<?= BASE_URL ?>/documents" style="color:#FFF;">• Arrêtés & Délibérations</a></p>
                 <p><a href="<?= BASE_URL ?>/contact" style="color:#FFF;">• Formulaire de contact</a></p>
-                <p><a href="<?= BASE_URL ?>/admin/login" style="color:#FFF; opacity:0.8;">• Espace Administration</a></p>
             </div>
             <div class="footer-col">
                 <h3>Mairie de Tattaguine</h3>
@@ -18,7 +20,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; <?= date('Y') ?> Sunu Tattaguine — Mairie de Tattaguine (PATIP-JF). Tous droits réservés. | <a href="<?= BASE_URL ?>/admin/login" style="color:#DDD; text-decoration:none;">Accès Agents Municipaux</a></p>
+            <p>&copy; <?= date('Y') ?> Sunu Tattaguine — Mairie de Tattaguine (PATIP-JF). Tous droits réservés.</p>
         </div>
     </footer>
 
